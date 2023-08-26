@@ -21,9 +21,38 @@ sort([0, 1, -3]); // [-3, 0, 1]
 sort([]); // []
 ***********************************************************************/
 
-function sort(nums, sorted = []) {
-    // Your code here 
+function findSmallestIndex(arr, currentIndex = 0, smallestIndex = 0) {
+    if (currentIndex === arr.length) {
+        return smallestIndex;
+    }
+
+    if (arr[currentIndex] < arr[smallestIndex]) {
+        smallestIndex = currentIndex;
+    }
+
+    return findSmallestIndex(arr, currentIndex + 1, smallestIndex);
 }
+
+function sort(nums, sorted = []) {
+    if (nums.length === 0) {
+        return sorted;
+    }
+
+    const smallestIndex = findSmallestIndex(nums);
+    const smallest = nums[smallestIndex];
+
+    nums.splice(smallestIndex, 1); // Remove the smallest element
+
+    sorted.push(smallest);
+
+    return sort(nums, sorted);
+}
+
+// Examples:
+
+console.log(sort([4,1,6,3,1,7])); // [1, 1, 3, 4, 6, 7]
+console.log(sort([0, 1, -3])); // [-3, 0, 1]
+console.log(sort([])); // []
 
 /**************DO NOT MODIFY ANYTHING UNDER THIS LINE*****************/
 module.exports = sort;
